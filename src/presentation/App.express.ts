@@ -1,4 +1,4 @@
-import express, { Router, type Application } from 'express';
+import express, { Router, type Application, json, urlencoded } from 'express';
 import { join } from 'path';
 import { CorsAdapter } from '../adapters/cors/cors.adapter';
 interface Options {
@@ -20,6 +20,8 @@ export class AppExpress {
     start() {
         // Usar middleware CORS antes de cualquier otra ruta
         this.app.use(this.corsAdapter.getMiddleware());
+        this.app.use(json());
+        this.app.use(urlencoded({ extended: true }));
 
         // Sirve estáticos del frontend
         this.app.use(express.static(join(__dirname, "../dist")));
